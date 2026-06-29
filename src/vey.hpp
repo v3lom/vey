@@ -29,7 +29,7 @@ inline int create_socket(const char *ip, const char *port, int sock_type) {
     if (res == -1) {
         std::cerr << "connect error: " << get_last_error() << std::endl;
         print_error();
-        closesocket(sock);
+        closesock(sock);
         freeaddrinfo(ai);
         return -1;
     }

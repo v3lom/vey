@@ -17,9 +17,10 @@
 
 
 int get_last_error();
+void closesock(int s);
 
 #if WIN32
 #   define print_error() ((void)0)
 #else
-#   define print_error() (perror(get_last_error()))
+#   define print_error() (perror(""))
 #endif

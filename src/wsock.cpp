@@ -27,3 +27,11 @@ int get_last_error() {
     return errno;
 #endif
 }
+
+void closesock(int s) {
+#ifdef WIN32
+    closesocket(s);
+#else
+    close(s);
+#endif
+}

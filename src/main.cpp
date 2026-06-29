@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    std::cout << "target on " << argv[3] << ":\n\t" << ip << ":" << port << "\n\t" << threads << " threads " << packet_size << " sbyte packet size" << std::endl;
+    std::cout << "target on " << argv[3] << ":\n\t" << ip << ":" << port << "\n\t" << threads << " threads " << packet_size << " bytes packet size" << std::endl;
 
     std::vector<char> buff;
     buff.reserve(packet_size);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
             item.join();
         }
 
-        closesocket(sock);
+        closesock(sock);
     }
 
 
