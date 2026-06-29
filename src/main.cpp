@@ -1,7 +1,6 @@
 #include "vey.hpp"
 #include "wsock.hpp"
 
-
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -69,7 +68,6 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-
         std::vector<std::thread> ths;
         ths.reserve(threads);
 
@@ -80,11 +78,9 @@ int main(int argc, char *argv[]) {
             });
         }
 
-
         for (auto& item : ths) {
             item.join();
         }
-
 
         closesocket(sock);
     }
