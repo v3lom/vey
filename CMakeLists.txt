@@ -19,18 +19,18 @@ if (VEY_OPTIMIZE_ON_RELEASE)
         add_link_options($<$<CONFIG:Release>:/DEBUG:NONE>)
     else()
         add_compile_options($<$<CONFIG:Release>:-O3>)
-        add_link_options($<$<CONFIG:Release>:-s;-Wl,--exclude-all-symbols>)
+        add_link_options($<$<CONFIG:Release>:-s>)
+        add_link_options($<$<CONFIG:Release>:-Wl,--exclude-all-symbols>)
     endif()
 endif()
 
 if (VEY_STATIC_ON_RELEASE)
     if (MSVC)
-#       idk
+#        idk
     else()
         add_link_options($<$<CONFIG:Release>:-static>)
     endif()
 endif()
-
 
 add_subdirectory(src vey)
 add_subdirectory(libs)
