@@ -54,10 +54,12 @@ int main(int argc, char* argv[])
         {
             return inet::inet(InetCmd);
         }
+#ifdef WIN32
         else if (Program.is_subcommand_used("injec"))
         {
             return injec::injec(InjecCmd);
         }
+#endif
     }
     catch (const std::exception& err)
     {
