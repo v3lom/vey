@@ -1,4 +1,5 @@
 #include "inet.hpp"
+#include "injec.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -6,6 +7,7 @@ int main(int argc, char* argv[])
 
     // INET
     argparse::ArgumentParser InetCmd("inet");
+    Program.add_subparser(InetCmd);
     InetCmd.add_argument("--verbose").help("enable detailed logging / verbose output").flag();
     InetCmd.add_argument("ip").help("target IP address (IPv4 or IPv6)");
     InetCmd.add_argument("port").help("target port number (1-65535)");
@@ -30,14 +32,19 @@ int main(int argc, char* argv[])
 
 
     // INJEC TODO()
-    // argparse::ArgumentParser InjecCmd("injec");
-    // auto& Process = InjecCmd.add_mutually_exclusive_group(true);
+#ifdef WIN32
+    argparse::ArgumentParser InjecCmd("injec");
+    Program.add_subparser(InjecCmd);
+    auto& Process = InjecCmd.add_mutually_exclusive_group(true);
+    InjecCmd.add_argument("--verbose").help("enable detailed logging / verbose output").flag();
+    Process.add_argument("-p", "--pid").help("process pid").scan<'u', unsigned int>();
     // Process.add_argument("-n", "--name").help("process name");
-    // Process.add_argument("-P", "--pid").help("process pid").scan<'u', unsigned int>();
 
+    auto& Veyon = InjecCmd.add_mutually_exclusive_group(true);
+    Veyon.add_argument("-wc", "--wsa-cleanup").help("try by shellcode clean wsa").flag();
+    Veyon.add_argument("-idll", "--inject-dll").help("try inect dll to target process");
+#endif
 
-    Program.add_subparser(InetCmd);
-    // Program.add_subparser(InjecCmd);
 
     try
     {
@@ -45,10 +52,11 @@ int main(int argc, char* argv[])
 
         if (Program.is_subcommand_used("inet"))
         {
-            inet::inet(InetCmd);
+            return inet::inet(InetCmd);
         }
         else if (Program.is_subcommand_used("injec"))
         {
+            return injec::injec(InjecCmd);
         }
     }
     catch (const std::exception& err)

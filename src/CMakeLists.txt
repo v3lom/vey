@@ -1,3 +1,5 @@
 add_subdirectory(vey)
-add_subdirectory(injec)
+if(WIN32)
+    add_subdirectory(injec)
+endif ()
 add_subdirectory(inet)
