@@ -2,6 +2,8 @@ add_library(${CMAKE_PROJECT_NAME}_injec STATIC
         injec.cpp
         injec.hpp
         AOBScanner.hpp
+        WsaCleanup.cpp
+        WsaCleanup.hpp
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME}_injec
