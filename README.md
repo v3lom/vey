@@ -25,7 +25,7 @@ vey.exe inet [ip] [port] [protocol] [options]
 #### Optional Flags
 * `-s, --socket-count`        : Number of concurrent sockets to use (default: `1`).
 * `-p, --packet-size`          : Packet size in bytes (default: `1024`).
-* `-rc, --reconnect-count`    : Maximum number of reconnection attempts (default: no reconnect).
+* `-rc, --reconnect-count`    : Maximum number of reconnection attempts (default: infinity reconnect).
 * `-dw, --delay-ms-per-write` : Delay between consecutive write operations in milliseconds (default: no delay).
 * `-v4, --ipv4`               : Force IPv4 addressing.
 * `-v6, --ipv6`               : Force IPv6 addressing.
