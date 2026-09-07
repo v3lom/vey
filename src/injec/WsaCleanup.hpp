@@ -1,5 +1,6 @@
 #pragma once
 #include <ws2tcpip.h>
+#include <windows.h>
 
 namespace injec::shellcode
 {
@@ -12,6 +13,6 @@ namespace injec::shellcode
         char WSACleanupStr[16];
     };
 
-    void shellcode();
+    int shellcode(shelldata* data);
     void padding();
 } // namespace injec::shellcode

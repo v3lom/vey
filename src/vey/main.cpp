@@ -43,7 +43,8 @@ int main(int argc, char* argv[])
     Program.add_subparser(InjecCmd);
     auto& Process = InjecCmd.add_mutually_exclusive_group(true);
     InjecCmd.add_argument("--verbose").help("enable detailed logging / verbose output").flag();
-    Process.add_argument("-p", "--pid").help("process pid").scan<'u', unsigned int>();
+    InjecCmd.add_argument("-dp", "--enable-debug-privilege").help("try enable debug privilege").flag();
+    Process.add_argument("-p", "--pid").help("process id").scan<'u', unsigned int>();
     // Process.add_argument("-n", "--name").help("process name");
 
     auto& Veyon = InjecCmd.add_mutually_exclusive_group(true);
