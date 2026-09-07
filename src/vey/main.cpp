@@ -37,19 +37,17 @@ int main(int argc, char* argv[])
     IpVersion.add_argument("-v6", "--ipv6").help("force IPv6 addressing").flag();
 
 
-    // INJEC TODO()
+    // INJEC
 #ifdef WIN32
     argparse::ArgumentParser InjecCmd("injec");
     Program.add_subparser(InjecCmd);
-    auto& Process = InjecCmd.add_mutually_exclusive_group(true);
     InjecCmd.add_argument("--verbose").help("enable detailed logging / verbose output").flag();
     InjecCmd.add_argument("-dp", "--enable-debug-privilege").help("try enable debug privilege").flag();
-    Process.add_argument("-p", "--pid").help("process id").scan<'u', unsigned int>();
-    // Process.add_argument("-n", "--name").help("process name");
+    InjecCmd.add_argument("-p", "--pid").help("process id").scan<'u', unsigned int>().required();
 
-    auto& Veyon = InjecCmd.add_mutually_exclusive_group(true);
-    Veyon.add_argument("-wc", "--wsa-cleanup").help("try by shellcode clean wsa").flag();
-    Veyon.add_argument("-idll", "--inject-dll").help("try inject dll to target process");
+    auto& Process = InjecCmd.add_mutually_exclusive_group(true);
+    Process.add_argument("-wc", "--wsa-cleanup").help("try by shellcode clean wsa").flag();
+    // Process.add_argument("-idll", "--inject-dll").help("try inject dll to target process"); TODO()
 #endif
 
 

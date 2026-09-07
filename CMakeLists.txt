@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.3)
-project(vey LANGUAGES C CXX VERSION 0.5)
+project(vey LANGUAGES C CXX VERSION 0.6)
 
 
 set(CMAKE_CXX_STANDARD 20)
