@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 
     auto& Veyon = InjecCmd.add_mutually_exclusive_group(true);
     Veyon.add_argument("-wc", "--wsa-cleanup").help("try by shellcode clean wsa").flag();
-    Veyon.add_argument("-idll", "--inject-dll").help("try inect dll to target process");
+    Veyon.add_argument("-idll", "--inject-dll").help("try inject dll to target process");
 #endif
 
 
