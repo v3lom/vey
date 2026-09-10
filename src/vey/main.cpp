@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     InetCmd.add_argument("ip").help("target IP address (IPv4 or IPv6)");
     InetCmd.add_argument("port").help("target port number (1-65535)");
     InetCmd.add_argument("-rc", "--reconnect-count")
-        .help("maximum number of reconnection attempts [default: no reconnect]")
+        .help("maximum number of reconnection attempts [default: infinity reconnect]")
         .scan<'u', unsigned long long>();
     InetCmd.add_argument("-dw", "--delay-ms-per-write")
         .help("delay between consecutive write operations in milliseconds [default: no delay]")
